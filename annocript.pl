@@ -1743,7 +1743,7 @@ sub checkDB_CREATION {
 					#Check on the databases. The indexed should be present, otherwise the user will be alerted that
 					#he should start dbCreation procedure
 					if ($configHash->{'dbInUse'} eq "uniprotkb"){
-						if ( (indexed_db_present($configHash->{'tremblDB'}, "blastIndexedExts",$dbDataFolder) == 0) ){
+						if ( (indexed_db_present($configHash->{'tremblDB'}, "blastIndexedExts",$dbDataFolder, $configHash->{'useDiamond'}) == 0) ){
 						 annoDie("Database ".$configHash->{'tremblDB'}." is not indexed. Please restart annocript with doDbCreation=YES".
 						 "or change the parameter blastedOrganism in your configuration file if you want to use a previously created ".
 						 " database of organisms\n");
@@ -1751,13 +1751,13 @@ sub checkDB_CREATION {
 					}
 					
 					if ($configHash->{'dbInUse'} eq "uniref"){
-						if ( (indexed_db_present($configHash->{'unirefDB'}, "blastIndexedExts",$dbDataFolder) == 0) ){
+						if ( (indexed_db_present($configHash->{'unirefDB'}, "blastIndexedExts",$dbDataFolder, $configHash->{'useDiamond'}) == 0) ){
 						 #annoPrint("Database ".$configHash->{'uniref'}." is not indexed. Annocript will do it!\n");
 						 annoDie("Database ".$configHash->{'unirefDB'}." is not indexed. Please restart annocript with doDbCreation=YES\n");
 						}				
 					}
 					
-					if ((indexed_db_present($configHash->{'swissProtDB'}, "blastIndexedExts",$dbDataFolder) == 0) ){
+					if ((indexed_db_present($configHash->{'swissProtDB'}, "blastIndexedExts",$dbDataFolder, $configHash->{'useDiamond'}) == 0) ){
 					 annoDie("Database ".$configHash->{'swissProtDB'}." is not indexed. Please restart annocript with doDbCreation=YES\n");
 					}
 			 }
@@ -2874,7 +2874,7 @@ sub check_programs_presence {
     my $var= $program.'Path';
     $configHash->{$var} = $configHash->{'blastPath'}.$program;
   }
-  
+
 	    #CONTROLS THE PATH TO THE PROGRAMS
     if (!(check_presence($configHash->{'rpstblastnPath'}))){
       annoDie($configHash->{'rpstblastnPath'}." is missing. Please check the links in the configuration file or re-install the program. Exiting...\n");
